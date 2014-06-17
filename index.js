@@ -33,12 +33,14 @@ module.exports = function(){
           port.close();
         })
 
-        bl.close = function(){
+        bl.close = function(cb){
           bl.end();
           port.close(function(err){
-            if(err) console.log('closed with error?',err);
+            if(cb) cb(err);
+            else if(err) console.error('closed with error?',err);
           });
         }
+
         var opened = false;
 
         // if serial has been idle for 20 secs and i have no prompt.
