@@ -1,0 +1,21 @@
+{
+  "name": "pinoccio-serial",
+  "description": "serial interface base objects for pinoccio microcontrollers https://pinocc.io",
+  "version": "0.0.0",
+  "repository": {
+    "url": "git://github.com/soldair/pinoccio-serial.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "author": "Ryan Day",
+  "dependencies": {
+    "serialport": "~1.4.0",
+    "buffer-indexof": "~0.0.1",
+    "through": "~2.3.4"
+  },
+  "devDependencies": {
+    "tape": "~2.13.3"
+  }
+}
