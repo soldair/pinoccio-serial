@@ -1,8 +1,8 @@
 
 
 var serialport = require('serialport');
-var bitlash = require('./bitlash-stream');
-var rpc = require('./bitlash-rpc');
+var bitlash = require('./lib/bitlash-stream');
+var rpc = require('./lib/bitlash-rpc');
  
 // queue commands to run one at a time over serial
 
