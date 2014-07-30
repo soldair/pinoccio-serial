@@ -33,6 +33,15 @@ module.exports = function(){
           port.close();
         })
 
+  
+        var buf = [];
+        var prelistener = function(data){
+          buf.push(data);
+        };
+
+        bl.on('log',prelistener);
+
+
         bl.close = function(cb){
           bl.end();
           port.close(function(err){
@@ -58,6 +67,11 @@ module.exports = function(){
         bl.on('open',function(){
           opened = true;
           cb(false,bl);
+          if(buf.length) {
+            bl.emit('log',buf.join(""));
+            bl.removeListener('log',prelistener);
+            delete buf;
+          }
         });
 
         bl.command = rpc(bl);
