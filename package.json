@@ -1,7 +1,7 @@
 {
   "name": "pinoccio-serial",
   "description": "serial interface base objects for pinoccio microcontrollers https://pinocc.io",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": {
     "url": "git://github.com/soldair/pinoccio-serial.git"
   },
