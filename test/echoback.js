@@ -3,7 +3,7 @@ var through = require("through");
 var test = require('tape');
 
 
-test("can filter echoback",function(t){
+test("can echoback",function(t){
 
   t.plan(3);
 
@@ -13,8 +13,9 @@ test("can filter echoback",function(t){
 
   var s = eb(serial);
 
-  s.on('data',function(data){ 
-    t.equals(data+'','OK','should be ok');
+  s.on('data',function(data){
+    data = data+'';
+    t.equals(data.lastIndexOf("OK"),data.length-2,'should say ok');
   })
   
 
@@ -27,14 +28,14 @@ test("can filter echoback",function(t){
 test("echoback respects max",function(t){
 
   var serial = through(function(write){
-    this.queue(Buffer.concat([write,new Buffer(write.length+'')]));
+    this.queue(write);
   });
 
   var s = eb(serial);
 
   var count = 0;
   s.on('data',function(data){ 
-    count += +data;
+    count += data.length;
   });
  
   s.on('end',function(){
@@ -95,9 +96,7 @@ test("echoback response before echo",function(t){
   s.end();
 });
 
-test("echoback split over nultiple data events",function(t){
-
-  
+test("echoback split over multiple data events",function(t){
 
   var serial = through(function(write){
 
@@ -114,22 +113,17 @@ test("echoback split over nultiple data events",function(t){
 
   s.on('data',function(data){
     out.push(data);
-    console.log('>> ',data+'');
   });
  
   s.on('end',function(){
-
-    console.log('out>>> ',out);
 
     t.equals(out.length,2,'should have 2 data events');
 
     out = Buffer.concat(out)+'';
 
-    t.equals(out,'ok work','should have worked');
+    t.equals(out,'ok did it work','should have worked');
     t.end();
   });
-
-
 
   s.write(new Buffer(" did it"));
   s.end();

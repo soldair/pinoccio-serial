@@ -29,8 +29,20 @@ module.exports = function(){
 
         var bl = bitlash(port);
         // hack the interface to end the same way as serial port because the serialport is not public.
+
+        port.on('error',function(err){
+
+          console.error("serial port error.",err);
+          // todo reconnect serial. 
+          bl.emit('error',err);// pass the error to bl
+        })
+
+
         bl.on('end',function(){
-          port.close();
+          if(!port.closed) { 
+            port.closed = true;
+            port.close();
+          }
         })
 
   
@@ -41,13 +53,16 @@ module.exports = function(){
 
         bl.on('log',prelistener);
 
-
         bl.close = function(cb){
           bl.end();
-          port.close(function(err){
-            if(cb) cb(err);
-            else if(err) console.error('closed with error?',err);
-          });
+          if(!port.closed){
+            port.closed = true;
+            port.close(function(err){
+              console.log('close callback!')
+              if(cb) cb(err);
+              else if(err) console.error('closed with error?',err);
+            });
+          }
         }
 
         var opened = false;
@@ -68,13 +83,16 @@ module.exports = function(){
           opened = true;
           cb(false,bl);
           if(buf.length) {
-            bl.emit('log',buf.join(""));
             bl.removeListener('log',prelistener);
+            bl.emit('log',buf.join(""));
             delete buf;
           }
         });
 
         bl.command = rpc(bl);
+
+        bl.port = port;
+
       });
     }
   };
@@ -86,9 +104,7 @@ module.exports = function(){
     serialPort.on('open',function(err){
       if(err) return cb(err);
       cb(false,serialPort);
-    }).on('error',function(err){
-      console.error('serial error: ',err);
-    })
+    });
   }
 
   return o;
