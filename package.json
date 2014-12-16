@@ -1,7 +1,7 @@
 {
   "name": "pinoccio-serial",
   "description": "serial interface base objects for pinoccio microcontrollers https://pinocc.io",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "repository": {
     "url": "git://github.com/soldair/pinoccio-serial.git"
   },
@@ -11,7 +11,7 @@
   },
   "author": "Ryan Day",
   "dependencies": {
-    "serialport": "~1.4.0",
+    "serialport": "~1.4.9",
     "buffer-indexof": "~0.0.2",
     "through": "~2.3.4"
   },
