@@ -4,9 +4,10 @@ pinoccio-serial
 serial interface base objects for pinoccio microcontrollers https://pinocc.io
 
 ```js
+var serialport = require('serialport');
 var serial = require('pinoccio-serial');
 
-var pinoccios = serial();
+var pinoccios = serial(serialport);
 
 pinoccios.list(function(err,array of scouts found){
   console.log('found',found,'pinoccios connected');
