@@ -1,14 +1,14 @@
 
 
-var serialport = require('serialport');
 var bitlash = require('./lib/bitlash-stream');
 var rpc = require('./lib/bitlash-rpc');
  
 // queue commands to run one at a time over serial
 
-module.exports = function(){
+module.exports = function(serialport){
 
   var o = {
+    serialport:serialport,
     // look for connected pinoccios
     list:function(cb){
       serialport.list(function (err, ports) {
