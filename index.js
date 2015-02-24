@@ -6,7 +6,7 @@ var rpc = require('./lib/bitlash-rpc');
 // queue commands to run one at a time over serial
 
 module.exports = function(serialport){
-
+  if(!serialport || !serialport.SerialPort) throw new Error("the api has changed!. the firsat argument to pinoccio serial must be the serialport module")
   var o = {
     serialport:serialport,
     // look for connected pinoccios
